@@ -13,21 +13,21 @@ const cherry = {
   price: 0.5,
   quantity: 0,
   productId: 1,
-  image: "/images/cherry.jpg"
+  image: "./images/cherry.jpg"
 };
 const orange = {
   name: "orange",
   price: 1,
   quantity: 0,
   productId: 2,
-  image: "/images/orange.jpg"
+  image: "./images/orange.jpg"
 };
 const strawberry = {
   name: "strawberry",
   price: 0.75,
   quantity: 0,
   productId: 3,
-  image: "/images/strawberry.jpg"
+  image: "./images/strawberry.jpg"
 };
 
 products = [cherry, orange, strawberry];
