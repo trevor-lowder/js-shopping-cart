@@ -41,6 +41,7 @@ const findProductById = (productId) => {
 };
 /* Declare an empty array named cart to hold the items in the cart */
 let cart = [];
+let totalPaid = 0;
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
   - addProductToCart should then increase the product's quantity
@@ -99,6 +100,7 @@ const cartTotal = () => {
 /* Create a function called emptyCart that empties the products from the cart */
 const emptyCart = () => {
   cart.length = 0;
+  totalPaid = 0;
 };
 /* Create a function named pay that takes in an amount as an argument
   - amount is the money paid by customer
@@ -107,7 +109,8 @@ const emptyCart = () => {
   Hint: cartTotal function gives us cost of all the products in the cart  
 */
 const pay = (amount) => {
-  return amount - cartTotal();
+  totalPaid += amount;
+  return totalPaid - cartTotal();
 };
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
 
