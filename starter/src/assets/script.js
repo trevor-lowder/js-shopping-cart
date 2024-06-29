@@ -1,5 +1,5 @@
 /* Create an array named products which you will use to add all of your product object literals that you create in the next step. */
-const products = [];
+let products = [];
 /* Create 3 or more product objects using object literal notation 
    Each product should include five properties
    - name: name of product (string)
@@ -40,7 +40,7 @@ const findProductById = (productId) => {
   return products.find((product) => product.productId === productId);
 };
 /* Declare an empty array named cart to hold the items in the cart */
-const cart = [];
+let cart = [];
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
   - addProductToCart should then increase the product's quantity
@@ -48,16 +48,21 @@ const cart = [];
 */
 const addProductToCart = (productId) => {
   const productToAdd = findProductById(productId);
-  cart.push(productToAdd || { ...productToAdd, quantity: 1 });
-  productToAdd.quantity += 1;
+  if (cart.includes(productToAdd)) {
+    productToAdd.quantity += 1;
+  } else {
+    productToAdd.quantity = 1;
+    cart.push(productToAdd);
+  }
 };
+
 /* Create a function named increaseQuantity that takes in the productId as an argument
   - increaseQuantity should get the correct product based on the productId
   - increaseQuantity should then increase the product's quantity
 */
 const increaseQuantity = (productId) => {
   const product = findProductById(productId);
-  product.quantity += 1;
+  product && (product.quantity += 1);
 };
 /* Create a function named decreaseQuantity that takes in the productId as an argument
   - decreaseQuantity should get the correct product based on the productId
@@ -66,7 +71,10 @@ const increaseQuantity = (productId) => {
 */
 const decreaseQuantity = (productId) => {
   const product = findProductById(productId);
-  product.quantity === 0 ? cart.remove(product) : (product.quantity -= 1);
+  if (product && product.quantity > 0) {
+    product.quantity -= 1;
+    if (product.quantity === 0) removeProductFromCart(productId);
+  }
 };
 /* Create a function named removeProductFromCart that takes in the productId as an argument
   - removeProductFromCart should get the correct product based on the productId
@@ -74,10 +82,10 @@ const decreaseQuantity = (productId) => {
   - removeProductFromCart should remove the product from the cart
 */
 const removeProductFromCart = (productId) => {
-  const product = findProductById(productId);
-  if (product) {
-    product.quantity = 0;
-    cart.remove(product);
+  const productIndex = cart.findIndex(product => product.productId === productId);
+  if (productIndex !== -1) {
+    cart[productIndex].quantity = 0;
+    cart.splice(productIndex, 1);
   }
 };
 /* Create a function named cartTotal that has no parameters
@@ -86,11 +94,8 @@ const removeProductFromCart = (productId) => {
   Hint: price and quantity can be used to determine total cost
 */
 const cartTotal = () => {
-  return cart.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
-};
+  return cart.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+}
 /* Create a function called emptyCart that empties the products from the cart */
 const emptyCart = () => {
   cart.length = 0;
@@ -102,14 +107,7 @@ const emptyCart = () => {
   Hint: cartTotal function gives us cost of all the products in the cart  
 */
 const pay = (amount) => {
-  const total = cartTotal();
-  if (amount < total) {
-    return -(total - amount);
-  } else if (amount > total) {
-    return amount - total;
-  } else {
-    return 0;
-  }
+  return amount - cartTotal();
 };
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
 
